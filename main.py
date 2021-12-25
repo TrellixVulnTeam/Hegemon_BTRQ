@@ -1,9 +1,6 @@
 import argparse
-from typing import Dict
 import pandas as pd
-import subprocess
-import os
-from io import StringIO
+
 
 from src.hegemon import Hegemon
 from src.preprocessing.gse import GSE
@@ -31,7 +28,7 @@ parser.add_argument(
 # )
 args = parser.parse_args()
 
-def parse_gse(accessionID: str) -> Dict:
+def parse_gse(accessionID: str) -> dict:
     my_gse = GSE(accessionID)
     gpls = {}
     for gpl in my_gse.gpls:
@@ -50,18 +47,6 @@ def main(filebase: str, expr: pd.DataFrame, survival: pd.DataFrame) -> None:
     for df, name in zip(dfs, names):
         df.to_csv(f"{filebase}-{name}.txt", sep="\t")
 
-def run_perl(expr_file: str) -> None:
-    thr_file = expr_file[:-9] + "-thr.txt"
-    result = subprocess.run(["perl", "-I", 
-                             "/booleanfs/sahoo/scripts", 
-                             "/booleanfs/sahoo/scripts/absoluteInfo.pl", "thr", 
-                             expr_file, 
-                             "2", "70000", "0.5"], 
-                             capture_output=True,
-                             text=True)
-    df = pd.read_csv(StringIO(result.stdout))
-    print(df)
-
 if __name__ == "__main__":
     gpls = parse_gse(args.gse)
     for gpl_name, hegemon_files in gpls.items():
@@ -69,4 +54,3 @@ if __name__ == "__main__":
         survival = hegemon_files["survival"]
         filebase = f"{args.gse}-{gpl_name}"
         main(filebase=filebase, expr=expr, survival=survival)
-        run_perl(filebase+"-expr.txt")

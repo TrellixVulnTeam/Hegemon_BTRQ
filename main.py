@@ -38,12 +38,11 @@ def parse_expr_survival(expr: str, survival: str) -> None:
     filebase = os.path.basename(expr)[:-9]
     Hegemon(expr=expr, survival=survival, filebase=filebase)
 
-def main():
+if __name__ == "__main__":
     if args.gse != None:
         parse_gse(args.gse)
     elif args.expr != None and args.survival != None:
         parse_expr_survival(args.expr, args.survival)
-
-if __name__ == "__main__":
-    main()
+    else:
+        print("Please add either a GSE accession ID with flag '-g' or BOTH an expr file with flag '-e' and a survival file with flag '-s'")
     

@@ -3,7 +3,7 @@ import pandas as pd
 from io import BytesIO
 
 
-from .perl_subprocess import PerlFiles
+from perl_subprocess import PerlFiles
 
 @dataclass
 class Hegemon:
@@ -40,7 +40,10 @@ class Hegemon:
 if __name__ == "__main__":
     import sys
     expr = sys.argv[1]
+    expr = pd.read_csv(expr, sep="\t")
     survival = sys.argv[2]
+    survival = pd.read_csv(survival, sep="\t")
+
     my_hegemon = Hegemon(expr, survival)
     print(my_hegemon.perl.bv())
         

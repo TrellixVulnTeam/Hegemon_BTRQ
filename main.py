@@ -3,6 +3,7 @@ from typing import Dict
 import pandas as pd
 import subprocess
 import os
+from io import StringIO
 
 from src.hegemon import Hegemon
 from src.preprocessing.gse import GSE
@@ -51,7 +52,15 @@ def main(filebase: str, expr: pd.DataFrame, survival: pd.DataFrame) -> None:
 
 def run_perl(expr_file: str) -> None:
     thr_file = expr_file[:-9] + "-thr.txt"
-    subprocess.run(["perl", "-I", "/booleanfs/sahoo/scripts", "/booleanfs/sahoo/scripts/absoluteInfo.pl", "thr", expr_file, "2", "70000", "0.5"], capture_output=True)
+    result = subprocess.run(["perl", "-I", 
+                             "/booleanfs/sahoo/scripts", 
+                             "/booleanfs/sahoo/scripts/absoluteInfo.pl", "thr", 
+                             expr_file, 
+                             "2", "70000", "0.5"], 
+                             capture_output=True,
+                             text=True)
+    df = pd.read_csv(StringIO(result.stdout))
+    print(df)
 
 if __name__ == "__main__":
     gpls = parse_gse(args.gse)

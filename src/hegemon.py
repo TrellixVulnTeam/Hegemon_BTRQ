@@ -12,7 +12,7 @@ class Hegemon:
     filebase: str
 
     def __post_init__(self):
-        self.survival.to_csv(self.filebase+"-expr.txt", sep="\t", index=False)
+        self.survival.to_csv(self.filebase+"-survival.txt", sep="\t", index=False)
         self.expr.to_csv(self.filebase+"-expr.txt", sep="\t", index=False)
         self.idx().to_csv(self.filebase+"-idx.txt", sep="\t", index=False)
         self.ih().to_csv(self.filebase+"-ih.txt", sep="\t", index=False)

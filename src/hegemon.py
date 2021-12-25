@@ -1,17 +1,24 @@
 from dataclasses import dataclass
 import pandas as pd
-from io import BytesIO
+from io import BytesIO, StringIO
+import subprocess
 
-
-from perl_subprocess import PerlFiles
 
 @dataclass
 class Hegemon:
     expr: pd.DataFrame
     survival: pd.DataFrame
+    filebase: str
 
     def __post_init__(self):
-        self.perl = PerlFiles(self.expr, "filler")
+        self.survival.to_csv(self.filebase+"-expr.txt", sep="\t", index=False)
+        self.expr.to_csv(self.filebase+"-expr.txt", sep="\t", index=False)
+        self.idx().to_csv(self.filebase+"-idx.txt", sep="\t", index=False)
+        self.ih().to_csv(self.filebase+"-ih.txt", sep="\t", index=False)
+        self.thr().to_csv(self.filebase+"-thr.txt", sep="\t", index=False)
+        self.vinfo().to_csv(self.filebase+"-vinfo.txt", sep="\t", index=False)
+        self.info().to_csv(self.filebase+"-info.txt", sep="\t", index=False)
+        self.bv().to_csv(self.filebase+"-bv.txt", sep="\t", index=False)
 
     def idx(self) -> pd.DataFrame:
         df_bin = BytesIO()
@@ -36,14 +43,55 @@ class Hegemon:
         ih_df = ih_df[["ArrayID", "Title"]]
         ih_df.insert(1, "ArrayHeader", ih_df["ArrayID"])
         return ih_df
+    
+    def thr(self) -> pd.DataFrame: # parses expr file    
+        result = subprocess.run(["perl", "-I", 
+                                "/booleanfs/sahoo/scripts", 
+                                "/booleanfs/sahoo/scripts/absoluteInfo.pl", "thr", 
+                                self.filebase+"-expr.txt", 
+                                "2", "70000", "0.5"], 
+                                capture_output=True,
+                                text=True)
+        thr_df = pd.read_csv(StringIO(result.stdout), sep="\t")
+        return thr_df
+
+    def info(self) -> pd.DataFrame: # parses thr file
+        result = subprocess.run(["perl", "-I",
+                                 "/booleanfs/sahoo/scripts",
+                                 "/booleanfs/sahoo/scripts/hegemonutils.pl",
+                                 "Info",
+                                 self.filebase], 
+                                 capture_output=True,
+                                 text=True)
+        info_df = pd.read_csv(StringIO(result.stdout), sep="\t")
+        return info_df
+
+    def vinfo(self) -> pd.DataFrame: # parses thr file
+        result = subprocess.run(["perl", "-I",
+                                "/booleanfs/sahoo/scripts",
+                                "/booleanfs/sahoo/scripts/hegemonutils.pl",
+                                "VInfo",
+                                self.filebase], 
+                                capture_output=True,
+                                text=True)
+        vinfo_df = pd.read_csv(StringIO(result.stdout), sep="\t")
+        return vinfo_df
+        
+    def bv(self) -> pd.DataFrame: # parses thr file and idx file
+        result = subprocess.run(["perl", "-I",
+                                "/booleanfs/sahoo/scripts",
+                                "/booleanfs/sahoo/scripts/hegemonutils.pl",
+                                "bv",
+                                self.filebase], 
+                                capture_output=True,
+                                text=True)
+        bv_df = pd.read_csv(StringIO(result.stdout), sep="\t")
+        return bv_df
 
 if __name__ == "__main__":
     import sys
-    expr = sys.argv[1]
-    expr = pd.read_csv(expr, sep="\t")
-    survival = sys.argv[2]
-    survival = pd.read_csv(survival, sep="\t")
+    expr = pd.read_csv(sys.argv[1], sep="\t")
+    survival = pd.read_csv(sys.argv[2], sep="\t")
 
-    my_hegemon = Hegemon(expr, survival)
-    print(my_hegemon.perl.bv())
+    my_hegemon = Hegemon(expr, survival, filebase="filler")
         

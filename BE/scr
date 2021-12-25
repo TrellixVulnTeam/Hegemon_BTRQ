@@ -1,14 +1,13 @@
 #!/bin/bash
 
-python3 process.py
+perl analyze.pl convert-hs \
+    sen-2020-barretts-ih.txt \
+    sen-2020-barretts-survival.txt \
+    sen-2020-barretts-expr.txt \
+    sen-2020-barretts-idx.txt
 
-if [ $? -ne 0 ];
-then
-	echo "process.py failed"
-	exit
-fi
 
-for i in ./*-expr.txt
+for i in sen-2020-barretts-expr.txt
 do
     P=${i/-expr.txt/}
     echo $P

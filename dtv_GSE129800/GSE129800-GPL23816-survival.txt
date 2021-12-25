@@ -1,0 +1,13 @@
+ArrayId	time	status	c title	c source_name (ch1)	c organism (ch1)	c taxid (ch1)	c tissue (ch1)	c cell type (ch1)	c molecule (ch1)
+GSM3722267			NK alone donor 1	Control	Homo sapiens	9606	peripheral blood	natural killer cells	polyA RNA
+GSM3722268			NK alone donor 2	Control	Homo sapiens	9606	peripheral blood	natural killer cells	polyA RNA
+GSM3722269			NK alone donor 3	Control	Homo sapiens	9606	peripheral blood	natural killer cells	polyA RNA
+GSM3722270			NK CTV-1 6h donor 1	Tumor-primed NK cells (6h)	Homo sapiens	9606	peripheral blood	natural killer cells	polyA RNA
+GSM3722271			NK CTV-1 6h donor 2	Tumor-primed NK cells (6h)	Homo sapiens	9606	peripheral blood	natural killer cells	polyA RNA
+GSM3722272			NK CTV-1 6h donor 3	Tumor-primed NK cells (6h)	Homo sapiens	9606	peripheral blood	natural killer cells	polyA RNA
+GSM3722273			NK CTV-1 16h donor 1	Tumor-primed NK cells (16h)	Homo sapiens	9606	peripheral blood	natural killer cells	polyA RNA
+GSM3722274			NK CTV-1 16h donor 2	Tumor-primed NK cells (16h)	Homo sapiens	9606	peripheral blood	natural killer cells	polyA RNA
+GSM3722275			NK CTV-1 16h donor 3	Tumor-primed NK cells (16h)	Homo sapiens	9606	peripheral blood	natural killer cells	polyA RNA
+GSM3722276			NK IL2 donor 1	Lymphokine-activated NK cells	Homo sapiens	9606	peripheral blood	natural killer cells	polyA RNA
+GSM3722277			NK IL2 donor 2	Lymphokine-activated NK cells	Homo sapiens	9606	peripheral blood	natural killer cells	polyA RNA
+GSM3722278			NK IL2 donor 3	Lymphokine-activated NK cells	Homo sapiens	9606	peripheral blood	natural killer cells	polyA RNA

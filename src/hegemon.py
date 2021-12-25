@@ -2,10 +2,16 @@ from dataclasses import dataclass
 import pandas as pd
 from io import BytesIO
 
+
+from .perl_subprocess import PerlFiles
+
 @dataclass
 class Hegemon:
     expr: pd.DataFrame
     survival: pd.DataFrame
+
+    def __post_init__(self):
+        self.perl = PerlFiles(self.expr, "filler")
 
     def idx(self) -> pd.DataFrame:
         df_bin = BytesIO()

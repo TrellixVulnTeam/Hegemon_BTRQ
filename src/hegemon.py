@@ -104,11 +104,4 @@ class Hegemon:
                 file_out.write(f"{name}={filepath}\n")
 
             file_out.write("key=")
-
-if __name__ == "__main__":
-    import sys
-    expr = pd.read_csv(sys.argv[1], sep="\t")
-    survival = pd.read_csv(sys.argv[2], sep="\t")
-
-    my_hegemon = Hegemon(expr, survival, filebase="filler")
         

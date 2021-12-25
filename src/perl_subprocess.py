@@ -20,7 +20,7 @@ class PerlFiles:
                                 "2", "70000", "0.5"], 
                                 capture_output=True,
                                 text=True)
-        thr_df = pd.read_csv(StringIO(result.stdout))
+        thr_df = pd.read_csv(StringIO(result.stdout), sep="\t")
         return thr_df
 
     def info(self) -> pd.DataFrame: # parses thr file
@@ -31,7 +31,7 @@ class PerlFiles:
                                 self.filebase], 
                                 capture_output=True,
                                 text=True)
-        info_df = pd.read_csv(StringIO(result.stdout))
+        info_df = pd.read_csv(StringIO(result.stdout), sep="\t")
         return info_df
 
     def vinfo(self) -> pd.DataFrame: # parses thr file
@@ -42,7 +42,7 @@ class PerlFiles:
                                 self.filebase], 
                                 capture_output=True,
                                 text=True)
-        vinfo_df = pd.read_csv(StringIO(result.stdout))
+        vinfo_df = pd.read_csv(StringIO(result.stdout), sep="\t")
         return vinfo_df
         
     def bv(self) -> pd.DataFrame: # parses thr file
@@ -53,7 +53,7 @@ class PerlFiles:
                                 self.filebase], 
                                 capture_output=True,
                                 text=True)
-        bv_df = pd.read_csv(StringIO(result.stdout))
+        bv_df = pd.read_csv(StringIO(result.stdout), sep="\t")
         return bv_df
 
 if __name__ == "__main__":

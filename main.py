@@ -11,21 +11,6 @@ parser.add_argument(
     "--gse",
     help="NCBI GEO GSE Accession ID to parse",
 )
-# parser.add_argument(
-#     "-e",
-#     "--expr",
-#     help="Expression file",
-# )
-# parser.add_argument(
-#     "-s",
-#     "--survival",
-#     help="Survival file",
-# )
-# parser.add_argument(
-#     "-f",
-#     "--filebase",
-#     help="Basename for all exported files",
-# )
 args = parser.parse_args()
 
 def parse_gse(accessionID: str) -> dict:

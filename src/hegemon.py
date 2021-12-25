@@ -39,7 +39,7 @@ class Hegemon:
         return idx
 
     def ih(self) -> pd.DataFrame:
-        ih_df = self.survival.rename(columns={"c title": "Title"})
+        ih_df = self.survival.rename(columns={"c title": "Title", "ArrayId": "ArrayID"})
         ih_df = ih_df[["ArrayID", "Title"]]
         ih_df.insert(1, "ArrayHeader", ih_df["ArrayID"])
         return ih_df

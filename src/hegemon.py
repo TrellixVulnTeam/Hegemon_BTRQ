@@ -38,10 +38,9 @@ class Hegemon:
         return ih_df
 
 if __name__ == "__main__":
-    from preprocessing.gse import GSE
-    my_gse = GSE("GSE129800")
-    expr = my_gse.expr(my_gse.gpls[0])
-    survival = my_gse.survival(my_gse.gpls[0])
+    import sys
+    expr = sys.argv[1]
+    survival = sys.argv[2]
     my_hegemon = Hegemon(expr, survival)
-    print(my_hegemon.ih())
+    print(my_hegemon.perl.bv())
         

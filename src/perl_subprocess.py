@@ -30,7 +30,7 @@ class PerlFiles:
         return info_df
 
 
-    def vinfo(self) -> pd.DataFrame:
+    def vinfo(self) -> pd.DataFrame: #parses thr file
         result = subprocess.run(["perl", "-I",
                                 "/booleanfs/sahoo/scripts",
                                 "/booleanfs/sahoo/scripts/hegemonutils.pl",
@@ -41,10 +41,10 @@ class PerlFiles:
         vinfo_df = pd.read_csv(StringIO(result.stdout))
         return vinfo_df
         
-    def bv(self) -> pd.DataFramee:
+    def bv(self) -> pd.DataFrame: #parses thr file
         result = subprocess.run(["perl", "-I",
                                 "/booleanfs/sahoo/scripts",
-                                "/booleanfs/sahoo/scripts/hegemonutils.p",
+                                "/booleanfs/sahoo/scripts/hegemonutils.pl",
                                 "bv",
                                 self.expr_file[:-9]], 
                                 capture_output=True,

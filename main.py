@@ -51,7 +51,7 @@ def main(filebase: str, expr: pd.DataFrame, survival: pd.DataFrame) -> None:
 
 def run_perl(expr_file: str) -> None:
     thr_file = expr_file[:-9] + "-thr.txt"
-    subprocess.run(f"perl -I /booleanfs/sahoo/scripts /booleanfs/sahoo/scripts/absoluteInfo.pl thr {expr_file} 2 70000 0.5 > {thr_file}")
+    subprocess.run(["perl", "-I", "/booleanfs/sahoo/scripts", "/booleanfs/sahoo/scripts/absoluteInfo.pl", "thr", expr_file, "2", "70000", "0.5"], capture_output=True)
 
 if __name__ == "__main__":
     gpls = parse_gse(args.gse)
@@ -59,7 +59,5 @@ if __name__ == "__main__":
         expr = hegemon_files["expr"]
         survival = hegemon_files["survival"]
         filebase = f"{args.gse}-{gpl_name}"
-        os.mkdir(filebase)
-        os.chdir(filebase)
         main(filebase=filebase, expr=expr, survival=survival)
         run_perl(filebase+"-expr.txt")

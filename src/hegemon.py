@@ -2,6 +2,7 @@ from dataclasses import dataclass
 import pandas as pd
 from io import BytesIO, StringIO
 import subprocess
+import os
 
 
 @dataclass
@@ -19,6 +20,7 @@ class Hegemon:
         self.vinfo().to_csv(self.filebase+"-vinfo.txt", sep="\t", index=False)
         self.info().to_csv(self.filebase+"-info.txt", sep="\t", index=False)
         self.bv().to_csv(self.filebase+"-bv.txt", sep="\t", index=False)
+        self.conf_file()
 
     def idx(self) -> pd.DataFrame:
         df_bin = BytesIO()
@@ -87,6 +89,21 @@ class Hegemon:
                                 text=True)
         bv_df = pd.read_csv(StringIO(result.stdout), sep="\t")
         return bv_df
+    
+    def conf_file(self) -> None:
+        export = os.path.join(os.getcwd(), "conf_file.txt")
+        with open(export, "w") as file_out:
+            file_out.write("[]\n")
+            file_out.write("name=\n")
+
+            names = ["expr", "index", "survival", "indexHeader", "info"]
+            types = ["expr", "idx", "survival", "ih", "info"]
+            for name, type in zip(names, types):
+                file = f"{self.filebase}-{type}.txt"
+                filepath = os.path.join(os.getcwd(), file)
+                file_out.write(f"{name}={filepath}\n")
+
+            file_out.write("key=")
 
 if __name__ == "__main__":
     import sys

@@ -1,11 +1,9 @@
 import argparse
-import pandas as pd
 
-
-from src.hegemon import Hegemon
 from src.preprocessing.gse import GSE
+from src.hegemon import Hegemon
 
-parser = argparse.ArgumentParser(description="CLI For Hegemon Files")
+parser = argparse.ArgumentParser(description="CLI For GSE ID")
 parser.add_argument(
     "-g",
     "--gse",
@@ -13,29 +11,14 @@ parser.add_argument(
 )
 args = parser.parse_args()
 
-def parse_gse(accessionID: str) -> dict:
+def parse_gse(accessionID: str) -> None:
     my_gse = GSE(accessionID)
-    gpls = {}
-    for gpl in my_gse.gpls:
-        expr = my_gse.expr(gpl)
-        survival = my_gse.survival(gpl)
-        gpls[gpl] = {"expr": expr, "survival": survival}
-    return gpls
-
-def main(filebase: str, expr: pd.DataFrame, survival: pd.DataFrame) -> None:
-    hegemon = Hegemon(expr, survival)
-    idx = hegemon.idx()
-    ih = hegemon.ih()
-
-    dfs = [expr, survival, idx, ih]
-    names = ["expr", "survival", "idx", "ih"]
-    for df, name in zip(dfs, names):
-        df.to_csv(f"{filebase}-{name}.txt", sep="\t")
+    for gpl_name in my_gse.gpls:
+        expr = my_gse.expr(gpl_name)
+        survival = my_gse.survival(gpl_name)
+        filebase = f"{accessionID}-{gpl_name}"
+        Hegemon(expr=expr, survival=survival, filebase=filebase)
 
 if __name__ == "__main__":
     gpls = parse_gse(args.gse)
-    for gpl_name, hegemon_files in gpls.items():
-        expr = hegemon_files["expr"]
-        survival = hegemon_files["survival"]
-        filebase = f"{args.gse}-{gpl_name}"
-        main(filebase=filebase, expr=expr, survival=survival)
+    

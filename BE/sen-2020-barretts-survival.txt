@@ -1,7 +1,0 @@
-ArrayID	time	status	c Title	c protocol	c src1	c cell type	c treatment	c time point	c BioSample	c SRA
-GSM4634685			CTLi_RNAseq_rep2	CTL	Human epidermal keratinocyte	keratinocyte	transfect with SPT6i and undergo organotypic culture	6 days	https://www.ncbi.nlm.nih.gov/biosample/SAMN15356195	https://www.ncbi.nlm.nih.gov/sra?term=SRX8607602
-GSM4634686			CTLi_RNAseq_rep3	CTL	Human epidermal keratinocyte	keratinocyte	transfect with SPT6i and undergo organotypic culture	6 days	https://www.ncbi.nlm.nih.gov/biosample/SAMN15356194	https://www.ncbi.nlm.nih.gov/sra?term=SRX8607603
-GSM4634683			SPT6i_RNAseq_rep3	SPT6	Human epidermal keratinocyte	keratinocyte	transfect with SPT6i and undergo organotypic culture	6 days	https://www.ncbi.nlm.nih.gov/biosample/SAMN15356197	https://www.ncbi.nlm.nih.gov/sra?term=SRX8607600
-GSM4634681			SPT6i_RNAseq_rep1	SPT6	Human epidermal keratinocyte	keratinocyte	transfect with SPT6i and undergo organotypic culture	6 days	https://www.ncbi.nlm.nih.gov/biosample/SAMN15356199	https://www.ncbi.nlm.nih.gov/sra?term=SRX8607598
-GSM4634682			SPT6i_RNAseq_rep2	SPT6	Human epidermal keratinocyte	keratinocyte	transfect with SPT6i and undergo organotypic culture	6 days	https://www.ncbi.nlm.nih.gov/biosample/SAMN15356198	https://www.ncbi.nlm.nih.gov/sra?term=SRX8607599
-GSM4634684			CTLi_RNAseq_rep1	CTL	Human epidermal keratinocyte	keratinocyte	transfect with SPT6i and undergo organotypic culture	6 days	https://www.ncbi.nlm.nih.gov/biosample/SAMN15356196	https://www.ncbi.nlm.nih.gov/sra?term=SRX8607601

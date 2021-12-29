@@ -1,16 +1,17 @@
 import pandas as pd
-import GEOparse
-import os
-import glob
+import sys
 
-from src.preprocessing.preprocess import getProbeID
+sys.path.append("..")
+
+from gse import GSE
+from preprocess import getProbeID
+
 
 def gse130284(raw_counts_file: str) -> pd.DataFrame:
-    gse130284 = GEOparse.get_GEO(geo="GSE130284", silent=True)
-    os.remove(glob.glob("GSE130284*.soft*")[0])
+    gse130284 = GSE("GSE130284")
 
-    df = pd.read_exceL(raw_counts_file)
-    df = df.rename(columns={"Id": "Name", "KNalone_2": "NKalone_2"}) # fix typo
+    df = pd.read_excel(raw_counts_file)
+    df = df.rename(columns={"Id": "Name", "KNalone_2": "NKalone_2"})  # fix typo
     df = df.set_index("Name").iloc[:, :12]
 
     col_names = []
@@ -31,5 +32,12 @@ def gse130284(raw_counts_file: str) -> pd.DataFrame:
         # map gsm name to sample title
         col_rename[gsm.metadata["title"][0]] = name
     df = df.rename(columns=col_rename).reset_index()
-    df = getProbeID(df)
-    return df
+
+    expr = getProbeID(df)
+    survival = gse130284.survival("GPL18573")
+    return expr, survival
+
+
+if __name__ == "__main__":
+    rc = sys.argv[1]
+    gse130284(rc)

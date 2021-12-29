@@ -6,7 +6,7 @@ import re
 import os
 import glob
 
-from .preprocess import getProbeID
+from preprocess import getProbeID
 
 
 @dataclass
@@ -21,14 +21,14 @@ class GSE:
         # remove downloaded soft file
         os.remove(glob.glob(f"{self.accessionID}*.soft*")[0])
 
-    def expr(self, gpl_name: str, takeLog: bool=True) -> pd.DataFrame:
+    def expr(self, gpl_name: str, takeLog: bool = True) -> pd.DataFrame:
         # confirm that gsm correlates to called gpl
         for name, gsm in self.gse.gsms.items():
             if gsm.metadata["platform_id"][0] != gpl_name:
                 continue
-            
+
             # collect count data
-            gsm_df = gsm.table.rename(columns={"ID_REF":"Name"})
+            gsm_df = gsm.table.rename(columns={"ID_REF": "Name"})
             gsm_df = gsm_df.set_index("Name")
             gsm_df.columns = [name]
 
@@ -86,7 +86,7 @@ class GSE:
             all_metadata[name] = metadata
 
         all_metadata = pd.DataFrame(all_metadata).T
-        # convert all list values into string
+        # convert all list values into string for later splitting
         all_metadata = all_metadata.applymap(lambda x: "\t".join(x), na_action="ignore")
 
         for column in all_metadata.columns:
@@ -114,14 +114,14 @@ class GSE:
                 df = df.rename(columns={column: value})
                 df[value] = df[value].str.extract(r".*: (.*)")
 
-        # add 'c ' label for use in hegemon
+        # add 'c ' label per hegemon requirements
         df = df.rename(columns={col: "c " + col for col in df.columns})
         df = df.reset_index()
         return df
+
 
 if __name__ == "__main__":
     gse = "GSE130284"
     gpl = "GPL18573"
     gse130284 = GSE(gse)
     surv = gse130284.survival(gpl)
-        

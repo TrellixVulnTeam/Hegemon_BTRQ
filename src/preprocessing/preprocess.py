@@ -20,6 +20,7 @@ def getProbeID(df):
         df = df.set_index(["ProbeID", "Name"]).reset_index()
     return df
 
+
 def counts2expr(counts_df: pd.DataFrame) -> pd.DataFrame:
     counts_df = counts_df.set_index(["ProbeID", "Name"])
     adata = sc.AnnData(counts_df.T)
@@ -28,6 +29,7 @@ def counts2expr(counts_df: pd.DataFrame) -> pd.DataFrame:
     sc.pp.normalize_total(adata, target_sum=1e6)
     sc.pp.log1p(adata, base=2)
     return adata.to_df().T
+
 
 def tar2rcc(tar_file: str) -> str:
     """Extracts all files from a tarfile into a new directory with '_RCC' appended
@@ -51,7 +53,8 @@ def tar2rcc(tar_file: str) -> str:
     gunzip_dir(rcc_dir)
     return rcc_dir
 
-def gunzip_dir(self, my_dir: str) -> None:
+
+def gunzip_dir(my_dir: str) -> None:
     """Unzips any gzipped files in given directory
 
     Args:

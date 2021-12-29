@@ -4,24 +4,25 @@ import os
 from bs4 import BeautifulSoup
 from io import StringIO
 
+
 @dataclass
 class NanoString:
     rcc_files: list
 
-    def __post_init__(self):        
+    def __post_init__(self):
         # map sample name to parsed rcc file with {attribute: pd.DataFrame}
         sample_hash = {}
         for rcc_file in self.rcc_files:
             sample = self.parse_rcc(rcc_file)
             sample_name = os.path.basename(rcc_file)
             sample_hash[sample_name] = sample
-            
+
             # make all sample attribute class attribute if does not exist
             for attribute in sample.keys():
                 if not hasattr(self, attribute):
                     setattr(self, attribute, None)
 
-        # compile all RCC attribute into class attribute dataframe 
+        # compile all RCC attribute into class attribute dataframe
         for attribute in list(vars(self)):
             if attribute != "rcc_files":
                 for sample_name, sample in sample_hash.items():
@@ -31,8 +32,8 @@ class NanoString:
                         df = to_merge
                     else:
                         df = df.merge(to_merge, left_index=True, right_index=True)
-            setattr(self, attribute, df)
-            del df
+                setattr(self, attribute, df)
+                del df
 
     def parse_rcc(self, file_in):
         with open(file_in) as file_in:
@@ -54,11 +55,13 @@ class NanoString:
             sample[tag] = df
         return sample
 
+
 if __name__ == "__main__":
     import argparse
     import shutil
     import glob
     from preprocess import tar2rcc
+
     parser = argparse.ArgumentParser(description="CLI For NanoString RCC Processing")
     group = parser.add_mutually_exclusive_group(required=True)
     group.add_argument(
@@ -83,5 +86,6 @@ if __name__ == "__main__":
     if args.tarfile != None:
         rcc_dir = tar2rcc(args.tarfile)
         rcc_files = [os.path.join(rcc_dir, file) for file in os.listdir(rcc_dir)]
-        print(NanoString(rcc_files).code_summary)
+        df = NanoString(rcc_files).code_summary
+        df.to_csv("nanostring.csv")
         shutil.rmtree(rcc_dir)

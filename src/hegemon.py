@@ -16,12 +16,12 @@ class Hegemon:
     survival: pd.DataFrame
     filebase: str
 
-    def __post_init__(self):
-        self.survival.to_csv(self.filebase + "-survival.txt", sep="\t", index=False)
+    def export_all(self):
         self.expr.to_csv(self.filebase + "-expr.txt", sep="\t", index=False)
+        self.survival.to_csv(self.filebase + "-survival.txt", sep="\t", index=False)
         self.idx().to_csv(self.filebase + "-idx.txt", sep="\t", index=False)
-        self.ih().to_csv(self.filebase + "-ih.txt", sep="\t", index=False)
         self.thr().to_csv(self.filebase + "-thr.txt", sep="\t", index=False)
+        self.ih().to_csv(self.filebase + "-ih.txt", sep="\t", index=False)
         self.vinfo().to_csv(self.filebase + "-vinfo.txt", sep="\t", index=False)
         self.info().to_csv(self.filebase + "-info.txt", sep="\t", index=False)
         self.bv().to_csv(self.filebase + "-bv.txt", sep="\t", index=False)
@@ -118,17 +118,23 @@ class Hegemon:
         bv_df = pd.read_csv(StringIO(result.stdout), sep="\t")
         return bv_df
 
-    def conf_file(self) -> None:
-        export = os.path.join(os.getcwd(), "conf_file.txt")
+    def conf_file(self, path: str = os.getcwd()) -> None:
+        export = os.path.join(path, "conf_file.txt")
         with open(export, "w") as file_out:
             file_out.write("[]\n")
             file_out.write("name=\n")
-
             names = ["expr", "index", "survival", "indexHeader", "info"]
             types = ["expr", "idx", "survival", "ih", "info"]
             for name, type in zip(names, types):
                 file = f"{self.filebase}-{type}.txt"
-                filepath = os.path.join(os.getcwd(), file)
+                filepath = os.path.join(path, file)
                 file_out.write(f"{name}={filepath}\n")
-
             file_out.write("key=")
+            file_out.write("source=")
+
+
+if __name__ == "__main__":
+    import sys
+
+    filebase = sys.argv[1]
+    heg = Hegemon(None, None, filebase).conf_file()

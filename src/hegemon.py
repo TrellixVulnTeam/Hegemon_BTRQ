@@ -7,6 +7,7 @@ import os
 """
 To Do:
 1. Sort all dfs by sample & gene
+2. Entire process with GSE153129
 """
 
 
